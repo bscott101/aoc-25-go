@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -66,6 +67,33 @@ func partOneSolution(inputs []SafeInput) int {
 	return hitCounter
 }
 
+func partTwoSolution(inputs []SafeInput) int {
+	position := 50
+	hitCounter := 0
+
+	for _, input := range inputs {
+		number := input.turns
+		direction := input.direction
+
+		for number > 0 {
+			if direction == "L" {
+				position -= 1
+			} else {
+				position += 1
+			}
+
+			if int(math.Abs(float64(position))) == 100 {
+				position = 0
+			}
+			if position == 0 {
+				hitCounter += 1
+			}
+			number -= 1
+		}
+	}
+	return hitCounter
+}
+
 func main() {
 	filePath := "./day01/input.txt"
 	file := ReadFile(filePath)
@@ -73,4 +101,8 @@ func main() {
 
 	partOneRes := partOneSolution(data)
 	fmt.Printf("Part One: %d\n", partOneRes)
+
+	partTwoRes := partTwoSolution(data)
+	fmt.Printf("Part Two: %d\n", partTwoRes)
+
 }
